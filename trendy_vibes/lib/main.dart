@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:trendy_vibes/controllers/game_controllers.dart';
+import 'package:trendy_vibes/screen/game_screen.dart';
+import 'package:trendy_vibes/screen/song_selection_screen.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 
@@ -16,22 +17,22 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'TrendyVibes',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1DB954), // Spotify-like green
+        primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(),
       ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1DB954),
-          brightness: Brightness.dark,
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const SongSelectionScreen()),
+        GetPage(
+          name: '/game',
+          page: () => const GameScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(GameController());
+          }),
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-      ),
-      themeMode: ThemeMode.system, 
-      debugShowCheckedModeBanner: false,
+      ],
     );
   }
 }

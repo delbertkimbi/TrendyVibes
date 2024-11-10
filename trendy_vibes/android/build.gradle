@@ -1,28 +1,22 @@
-allprojects {
+// Project-level build.gradle file
+
+buildscript {
     repositories {
         google()
         mavenCentral()
+        // Add the Flutter Maven repository if not present
+        maven { url 'https://storage.googleapis.com/download.flutter.io' }
+    }
+    ext.kotlin_version = '1.9.0'  // Ensure the Kotlin version is consistent across both files
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0'  // Updated Gradle plugin version
+        classpath 'com.google.gms:google-services:4.3.15'  // Ensure you're using a compatible version
     }
 }
 
-rootProject.buildDir = "../build"
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
-
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    ext.java_version = JavaVersion.VERSION_1_8
-    
-    tasks.withType(JavaCompile) {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+allprojects {
+    repositories {
+        google()  // Google's Maven repository for dependencies
+        mavenCentral()  // Central repository
     }
 }
